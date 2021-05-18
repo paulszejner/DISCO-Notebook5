@@ -1,0 +1,28 @@
+---
+title: "Hight temporal resolution Isotope measurements in Tree rings"
+output: html_notebook
+---
+#####  Isotope Dendrochronology
+#####  Mechanistic model of the Oxygen isotopes in cellulose.
+#####  COURSE: DISC, LTRR, UNIVERSITY OF ARIZONA. INSTRUCTORS: S. BELMECHERI & P. SZEJNER
+cd
+
+The following code and comments should further your experience of using tree ring Carbon and Oxygen isotopes in cellulose. This exercise relies upon high temporal resolution measurements or intra annual measurements in the cellulose that we can date in tree rings. as we connect the prosesses of xylogenesis  and carbon fixation during the ring formation  the premise  here is that the  first sections of a tree ring, will be fixing speciphyc carbohydrates that have a different isotopic signal than the last sections of the ring in which  the environmental conditions  are different.(redaction is a bit off...)
+
+## PART 1: whats the difference between 1 sample per ring vestius 15 consecutive samples per ring?
+```{r}
+plot(cars)
+```
+
+
+
+
+## PART 2: seasonal correlations
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
