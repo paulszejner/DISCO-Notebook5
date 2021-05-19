@@ -5,9 +5,6 @@ output: html_notebook
 #####  Isotope Dendrochronology
 #####  Mechanistic model of the Oxygen isotopes in cellulose.
 #####  COURSE: DISC, LTRR, UNIVERSITY OF ARIZONA. INSTRUCTORS: S. BELMECHERI & P. SZEJNER
-library(usethis)
-
-use_github(protocol = "https", auth_token Sys.getenv("GITHUB_PAT"))
 
 
 instructions
