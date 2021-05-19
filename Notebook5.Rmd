@@ -21,7 +21,7 @@ then each of you will be able to set your own working directory to proceed with 
 ```{r}
 # here we will plot the seasonall high resol plot form the book
 # Read the  high resolution form 1998 and 1999 from Heliport site Sothern Arizona.
-HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv")
+HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv") 
 HEL_99 <- read.csv("Data_Notebook5_part1/high_res_HEL_1999.csv")
 VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,-1]
 
