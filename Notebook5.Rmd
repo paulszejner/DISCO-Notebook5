@@ -12,6 +12,9 @@ Instructions:
 The following code and comments should further your experience of using tree ring Carbon and Oxygen isotopes in cellulose. This exercise relies upon high temporal resolution measurements ie. intra annual measurements in the cellulose that we can date in tree rings. As we connect the prosesses of xylogenesis and carbon fixation during the ring formation, the premise here is that the first sections of a tree ring, will be fixing specific carbohydrates that have a different isotopic signal than the last sections of the ring in which the environmental conditions are different.
 
 ## PART 1: Whats the difference between one sample per ring vesrus 15 consecutive samples per ring?
+you will need to download the R project from https://github.com/paulszejner/Notebook-5.git 
+then each of you will be able to set your own working directory to proceed with this excersises. once you open the Notebook 5.Rproj  you can open  the Notebook 5.Rmd file to proceed with the activity.
+
 
 ```{r}
 # here we will plot the seasonall high resol plot form the book
