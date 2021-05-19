@@ -1,5 +1,5 @@
 
-thin_sections <- read.csv("Date_Notebook5/iso_data_Ed.csv")
+thin_sections <- read.csv("Data_Notebook5/iso_data_Ed.csv")
 
 samples <- names(thin_sections[seq(2,24, 3)])
 
@@ -71,8 +71,6 @@ colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236") #<- wes_palette(4, name = "Z
 
 
 
-
-pdf("Plot_chapter_4_testing.pdf", width = 6.5, height = 6.5, pointsize = 10, useDingbats = F )
 
 layout(mat = matrix(c(1:4), nrow = 2, ncol = 2, byrow = T), widths = c(2,2), heights = c(2,2), respect = T)
 
@@ -154,7 +152,7 @@ axis(4, las=2,lwd=0.5)
 box()
 grid(lwd=1)
 legend("bottom", legend = "1999", bty = "n")
-dev.off()
+
 
 
 
