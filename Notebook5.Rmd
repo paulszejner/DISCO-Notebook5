@@ -11,20 +11,104 @@ Instructions:
 
 The following code and comments should further your experience of using tree ring Carbon and Oxygen isotopes in cellulose. This exercise relies upon high temporal resolution measurements ie. intra annual measurements in the cellulose that we can date in tree rings. As we connect the prosesses of xylogenesis and carbon fixation during the ring formation, the premise here is that the first sections of a tree ring, will be fixing specific carbohydrates that have a different isotopic signal than the last sections of the ring in which the environmental conditions are different.
 
-## PART 1: Whats the difference between one sample per ring vesrus 15 consecutive samples per ring?
-you will need to download the R project from https://github.com/paulszejner/Notebook-5.git 
+You will need to download the R project from https://github.com/paulszejner/Notebook-5.git 
 then each of you will be able to set your own working directory to proceed with this excersises. once you open the Notebook 5.Rproj  you can open  the Notebook 5.Rmd file to proceed with the activity.
 
 
+
+## PART 1: Whats the difference between one sample per ring vesrus 15 consecutive samples per ring?
+
 ```{r}
 # here we will plot the seasonall high resol plot form the book
+# Read the  high resolution form 1998 and 1999 from Heliport site Sothern Arizona.
+HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv")
+HEL_99 <- read.csv("Data_Notebook5_part1/high_res_HEL_1999.csv")
+VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,-1]
+
+days_doy <- c((VPD_HEL[,1]),rev(VPD_HEL[,1]))# growing season 
+
+# separating the EW and the LW
+EW_1998 <- mean(HEL_98[,3][1:11], na.rm = T)
+LW_1998 <- mean(HEL_98[,3][12:16], na.rm = T)
+EW_1999 <-  mean(HEL_99[,3][1:12], na.rm = T)
+LW_1999 <-  mean(HEL_99[,3][13:16], na.rm = T)
+
+# Read the VPD form 1998 and 1999 from Heliport site Sothern Arizona.
+```
+
+
+```{r}
+#VPD_1998
+par(mar=c(3,3,3,3),lwd=0.5)
+plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,150) , type = "n", axes = F, xlab = "", ylab = "")
+polygon(x = days_doy, y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
+axis(1, at = seq(135,304,15),lwd=0.5,las=2)
+axis(4,at = seq(0,40, 10), las=2,lwd=0.5)
+
+
+par(new=T,mar=c(3,3,3,3),lwd=0.5)
+plot(HEL_98[,2], HEL_98[,3], type="n", ylim=c(23,34), xlim=c(135,304), axes=F)
+
+  abline(h = HEL_98[,7][1],col=colb1[s],lwd=1,lty=2)
+  lines( HEL_98[,2],HEL_98[,3], type="o",col=colb1[s],lwd=0.5, pch=1)
+  lines(HEL_98[,2], HEL_98[,5],type="s",col=colb1[s],lwd=2  )
+  lines(HEL_98[,2][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=2  )#EW
+  lines(HEL_98[,2][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=2  )#LW
+  #lines(HEL_98[,7],HEL_98[,5],type="s",col=colb1[s],lwd=2,lty=2  )
+#  lines(1.1,HEL_98[,6][1],type="p",col=colb1[s], cex=1, pch=2, lwd=2)
+
+  lines(HEL_98[,2], HEL_98[,4],type="p", pch=21 , col="blue", bg=colb1[s])
+box()
+axis(2,lwd=0.5,las=2)
+grid(lwd=1)
+legend("topleft", legend = site_th[4], pch = 1, col=colb1[4] , bty = "n")
+legend("topright", legend = site_tot[4], col=colb1[4] , bty = "n",lwd=1,lty=2)
+legend("top", legend = "1998", bty = "n")
+
+
+
+```
+
+
+```{r}
+
+#VPD_1999
+
+par(mar=c(3,3,3,3),lwd=0.5)
+plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,150) , type = "n", axes = F, xlab = "", ylab = "")
+polygon(x = days_doy, y = c(VPD_HEL[,4], rev(VPD_HEL[,5])), border = F, col = rgb(0.2,0.3,0.4,0.6))
+axis(1, at = seq(135,304,15),lwd=0.5,las=2)
+axis(4,at = seq(0,40, 10), las=2,lwd=0.5)
+
+
+par(new=T,mar=c(3,3,3,3),lwd=0.5)
+plot(HEL_99[,2], HEL_99[,3], type="n", ylim=c(23,34), xlim=c(135,304), axes=F)
+
+  abline(h = HEL_99[,7][1],col=colb1[s],lwd=1,lty=2)
+  lines( HEL_99[,2],HEL_99[,3], type="o",col=colb1[s],lwd=0.5, pch=1)
+  lines(HEL_99[,2], HEL_99[,5],type="s",col=colb1[s],lwd=2  )
+  lines(HEL_99[,2][1:11], rep(EW_1999, 11),type="s",col="darkblue",lwd=2  )#EW
+  lines(HEL_99[,2][12:16], rep(LW_1999, 5),type="s",col="darkred",lwd=2  )#LW
+  #lines(HEL_99[,7],HEL_99[,5],type="s",col=colb1[s],lwd=2,lty=2  )
+#  lines(1.1,HEL_99[,6][1],type="p",col=colb1[s], cex=1, pch=2, lwd=2)
+
+  lines(HEL_99[,2], HEL_99[,4],type="p", pch=21 , col="blue", bg=colb1[s])
+box()
+axis(2,lwd=0.5,las=2)
+grid(lwd=1)
+legend("topleft", legend = site_th[4], pch = 1, col=colb1[4] , bty = "n")
+legend("topright", legend = site_tot[4], col=colb1[4] , bty = "n",lwd=1,lty=2)
+legend("top", legend = "1999", bty = "n")
+
+
 ```
 
 
 ## PART 2: seasonal correlations
 ```{r}
 # here we will conduct the seasonal correlations
-# using the data in this project
+# using the data in this project lcated in "Data_Notebook5_part2"
+
 
 ```
 

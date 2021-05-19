@@ -1,16 +1,19 @@
 
 thin_sections <- read.csv("Data_Notebook5/iso_data_Ed.csv")
 
+names(thin_sections)
 samples <- names(thin_sections[seq(2,24, 3)])
+
+colu <- seq(1,24, 3) # these are the estimated DOY for each sample
 
 all_samples_list <- list()
 
-colu <- seq(1,24, 3)
-
-for(s in 1:8){
+s=1
+for(s in 1:length(samples)){
   sample_1 <- thin_sections[,(colu[s]):(colu[s]+2)]
   sample_1 <- sample_1[1:length(na.omit(sample_1[,1])),]
   
+  # here we divide the number of sections into 4 
   p25 <- round(0.25*nrow(sample_1),0)
   p50 <- round(0.5*nrow(sample_1),0)
   p75 <- round(0.75*nrow(sample_1),0)
@@ -29,6 +32,8 @@ for(s in 1:8){
   all_samples_list[[s]] <- sample_1
 }
 
+write.csv(x = all_samples_list[[4]], file = "high_res_HEL_1998.csv")
+write.csv(x = all_samples_list[[8]], file = "high_res_HEL_1999.csv")
 
 ### plot
 
@@ -55,7 +60,11 @@ for(s in 1:8){
   lines( all_samples_list[[s]][,3],type="p", col="red")
 }
 
-
+plot(HEL_98[,2], HEL_98[,3], type="l", ylim=c(22,40))
+lines(HEL_98[,2], HEL_98[,5],type="s", col="blue")
+lines(HEL_98[,2], HEL_98[,6],type="s", col="darkgreen")
+lines(HEL_98[,2], HEL_98[,7],type="s", col="darkred")
+lines(HEL_98[,2], HEL_98[,4],type="p", col="red")
 
 
 
@@ -178,9 +187,38 @@ VPD_min_1999 <- HEL_PRISM_1998_1999$Smoth_daylyVPD_min[171:nrow(HEL_PRISM_1998_1
 
 days_doy <- c((135:304),(304:135))
 
+
+par(mar=c(3,3,3,3),lwd=0.5)
+plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,150) , type = "n", axes = F, xlab = "", ylab = "")
+polygon(x = days_doy, y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
+axis(1, at = seq(135,304,15),lwd=0.5,las=2)
+axis(4,at = seq(0,40, 10), las=2,lwd=0.5)
+
+
+par(new=T,mar=c(3,3,3,3),lwd=0.5)
+plot(HEL_98[,2], HEL_98[,3], type="n", ylim=c(23,34), xlim=c(135,304), axes=F)
+
+abline(h = HEL_98[,7][1],col=colb1[s],lwd=1,lty=2)
+lines( HEL_98[,2],HEL_98[,3], type="o",col=colb1[s],lwd=0.5, pch=1)
+lines(HEL_98[,2], HEL_98[,5],type="s",col=colb1[s],lwd=2  )
+lines(HEL_98[,2][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=2  )#EW
+lines(HEL_98[,2][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=2  )#LW
+#lines(HEL_98[,7],HEL_98[,5],type="s",col=colb1[s],lwd=2,lty=2  )
+#  lines(1.1,HEL_98[,6][1],type="p",col=colb1[s], cex=1, pch=2, lwd=2)
+
+lines(HEL_98[,2], HEL_98[,4],type="p", pch=21 , col="blue", bg=colb1[s])
+
+
+
+
+
 pdf("Plot_chapter_4_testing_HEL.pdf", width = 6.5, height = 6.5, pointsize = 10, useDingbats = F )
 
 layout(mat = matrix(c(1:4), nrow = 2, ncol = 2, byrow = T), widths = c(2,2), heights = c(2,2), respect = T)
+
+DOY <- 135:304
+VPD <- cbind(DOY,VPD_max_1998, VPD_min_1998 ,VPD_max_1999 ,VPD_min_1999 )
+write.csv(x = VPD,file = "VPD_1998_1999_HEL.csv")
 
 
 #VPD_1998
