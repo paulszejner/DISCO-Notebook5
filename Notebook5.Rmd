@@ -7,19 +7,24 @@ output: html_notebook
 #####  COURSE: DISC, LTRR, UNIVERSITY OF ARIZONA. INSTRUCTORS: S. BELMECHERI & P. SZEJNER
 
 
-instructions
+Instructions:
 
-The following code and comments should further your experience of using tree ring Carbon and Oxygen isotopes in cellulose. This exercise relies upon high temporal resolution measurements or intra annual measurements in the cellulose that we can date in tree rings. as we connect the prosesses of xylogenesis  and carbon fixation during the ring formation  the premise  here is that the  first sections of a tree ring, will be fixing speciphyc carbohydrates that have a different isotopic signal than the last sections of the ring in which  the environmental conditions  are different.(redaction is a bit off...)
+The following code and comments should further your experience of using tree ring Carbon and Oxygen isotopes in cellulose. This exercise relies upon high temporal resolution measurements ie. intra annual measurements in the cellulose that we can date in tree rings. As we connect the prosesses of xylogenesis and carbon fixation during the ring formation, the premise here is that the first sections of a tree ring, will be fixing specific carbohydrates that have a different isotopic signal than the last sections of the ring in which the environmental conditions are different.
 
-## PART 1: whats the difference between 1 sample per ring vestius 15 consecutive samples per ring?
+## PART 1: Whats the difference between one sample per ring vesrus 15 consecutive samples per ring?
+
 ```{r}
 # here we will plot the seasonall high resol plot form the book
 ```
 
 
-
-
 ## PART 2: seasonal correlations
+```{r}
+# here we will conduct the seasonal correlations
+using the data in this project
+
+```
+
 
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
