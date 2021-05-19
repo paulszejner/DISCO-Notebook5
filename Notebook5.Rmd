@@ -21,7 +21,7 @@ The following code and comments should further your experience of using tree rin
 ## PART 2: seasonal correlations
 ```{r}
 # here we will conduct the seasonal correlations
-using the data in this project
+# using the data in this project
 
 ```
 
