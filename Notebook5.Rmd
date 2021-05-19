@@ -48,22 +48,29 @@ axis(4,at = seq(0,40, 10), las=2,lwd=0.5)
 
 par(new=T,mar=c(3,3,3,3),lwd=0.5)
 plot(HEL_98[,2], HEL_98[,3], type="n", ylim=c(23,34), xlim=c(135,304), axes=F)
-
-  abline(h = HEL_98[,7][1],col=colb1[s],lwd=1,lty=2)
-  lines( HEL_98[,2],HEL_98[,3], type="o",col=colb1[s],lwd=0.5, pch=1)
-  lines(HEL_98[,2], HEL_98[,5],type="s",col=colb1[s],lwd=2  )
-  lines(HEL_98[,2][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=2  )#EW
-  lines(HEL_98[,2][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=2  )#LW
-  #lines(HEL_98[,7],HEL_98[,5],type="s",col=colb1[s],lwd=2,lty=2  )
-#  lines(1.1,HEL_98[,6][1],type="p",col=colb1[s], cex=1, pch=2, lwd=2)
-
-  lines(HEL_98[,2], HEL_98[,4],type="p", pch=21 , col="blue", bg=colb1[s])
-box()
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
-legend("topleft", legend = site_th[4], pch = 1, col=colb1[4] , bty = "n")
-legend("topright", legend = site_tot[4], col=colb1[4] , bty = "n",lwd=1,lty=2)
-legend("top", legend = "1998", bty = "n")
+box()
+
+lines( HEL_98[,2],HEL_98[,3], type="o",col=colb1[2],lwd=0.5, pch=1)
+legend(x = 260, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1,lty=1,pch = 1)
+
+lines(HEL_98[,2], HEL_98[,5],type="s",col=colb1[3],lwd=2  )
+legend(x = 260, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=1)
+
+lines(HEL_98[,2][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=2  )#EW
+legend(x = 260, y = 33, legend = "Earlywood", col="darkblue" , bty = "n",lwd=2)
+
+lines(HEL_98[,2][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
+legend(x = 260, y = 32.5, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
+
+lines(HEL_98[,2], HEL_98[,4],type="p", pch=20 , col="red", cex=3)
+legend(x = 260, y = 32, legend = "FLWB" , bty = "n", pch=20 , col="red",pt.cex = 3)
+
+abline(h = HEL_98[,7][1],col=colb1[1],lwd=1,lty=2)
+legend(x = 260, y = 31.5, legend = "annual mean", col=colb1[1] , bty = "n",lwd=1,lty=2)
+
+legend("top", legend = "1998", bty = "n", cex=3)
 
 
 
@@ -72,33 +79,39 @@ legend("top", legend = "1998", bty = "n")
 
 ```{r}
 
-#VPD_1999
 
 par(mar=c(3,3,3,3),lwd=0.5)
 plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,150) , type = "n", axes = F, xlab = "", ylab = "")
-polygon(x = days_doy, y = c(VPD_HEL[,4], rev(VPD_HEL[,5])), border = F, col = rgb(0.2,0.3,0.4,0.6))
+polygon(x = days_doy, y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
 axis(1, at = seq(135,304,15),lwd=0.5,las=2)
 axis(4,at = seq(0,40, 10), las=2,lwd=0.5)
 
 
 par(new=T,mar=c(3,3,3,3),lwd=0.5)
 plot(HEL_99[,2], HEL_99[,3], type="n", ylim=c(23,34), xlim=c(135,304), axes=F)
-
-  abline(h = HEL_99[,7][1],col=colb1[s],lwd=1,lty=2)
-  lines( HEL_99[,2],HEL_99[,3], type="o",col=colb1[s],lwd=0.5, pch=1)
-  lines(HEL_99[,2], HEL_99[,5],type="s",col=colb1[s],lwd=2  )
-  lines(HEL_99[,2][1:11], rep(EW_1999, 11),type="s",col="darkblue",lwd=2  )#EW
-  lines(HEL_99[,2][12:16], rep(LW_1999, 5),type="s",col="darkred",lwd=2  )#LW
-  #lines(HEL_99[,7],HEL_99[,5],type="s",col=colb1[s],lwd=2,lty=2  )
-#  lines(1.1,HEL_99[,6][1],type="p",col=colb1[s], cex=1, pch=2, lwd=2)
-
-  lines(HEL_99[,2], HEL_99[,4],type="p", pch=21 , col="blue", bg=colb1[s])
-box()
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
-legend("topleft", legend = site_th[4], pch = 1, col=colb1[4] , bty = "n")
-legend("topright", legend = site_tot[4], col=colb1[4] , bty = "n",lwd=1,lty=2)
-legend("top", legend = "1999", bty = "n")
+box()
+
+lines( HEL_99[,2],HEL_99[,3], type="o",col=colb1[2],lwd=0.5, pch=1)
+legend(x = 260, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1,lty=1,pch = 1)
+
+lines(HEL_99[,2], HEL_99[,5],type="s",col=colb1[3],lwd=2  )
+legend(x = 260, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=1)
+
+lines(HEL_99[,2][1:11], rep(EW_1999, 11),type="s",col="darkblue",lwd=2  )#EW
+legend(x = 260, y = 33, legend = "Earlywood", col="darkblue" , bty = "n",lwd=2)
+
+lines(HEL_99[,2][12:16], rep(LW_1999, 5),type="s",col="darkred",lwd=3  )#LW
+legend(x = 260, y = 32.5, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
+
+lines(HEL_99[,2], HEL_99[,4],type="p", pch=20 , col="red", cex=3)
+legend(x = 260, y = 32, legend = "FLWB" , bty = "n", pch=20 , col="red",pt.cex = 3)
+
+abline(h = HEL_99[,7][1],col=colb1[1],lwd=1,lty=2)
+legend(x = 260, y = 31.5, legend = "annual mean", col=colb1[1] , bty = "n",lwd=1,lty=2)
+
+legend("top", legend = "1999", bty = "n", cex=3)
 
 
 ```
