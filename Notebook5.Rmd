@@ -13,7 +13,7 @@ The following code and comments should further your experience of using tree rin
 
 ## PART 1: whats the difference between 1 sample per ring vestius 15 consecutive samples per ring?
 ```{r}
-plot(cars)
+# here we will plot the seasonall high resol plot form the book
 ```
 
 
