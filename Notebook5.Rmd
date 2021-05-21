@@ -18,7 +18,6 @@ then each of you will be able to set your own working directory to proceed with 
 
 
 ## PART 1: Whats the difference between one sample per ring vesrus 15 consecutive samples per ring?
-
 ```{r}
 # here we will plot the seasonall high resol plot form the book
 # Read the  high resolution form 1998 and 1999 from Heliport site Sothern Arizona.
@@ -40,6 +39,9 @@ LW_1999 <-  mean(HEL_99[,3][13:16], na.rm = T)
 
 ```{r}
 #VPD_1998
+library(wesanderson)
+colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236") #<- wes_palette(4, name = "Zissou1", type = "continuous")
+
 par(mar=c(3,3,3,3),lwd=0.5)
 plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,150) , type = "n", axes = F, xlab = "", ylab = "")
 polygon(x = days_doy, y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
