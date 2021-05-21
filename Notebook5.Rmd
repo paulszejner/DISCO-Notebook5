@@ -1,5 +1,5 @@
 ---
-title: "Hight temporal resolution Isotope measurements in Tree rings"
+title: "High temporal resolution Isotope measurements in Tree rings"
 output: html_notebook
 ---
 #####  Isotope Dendrochronology
