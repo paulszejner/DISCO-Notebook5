@@ -20,104 +20,153 @@ then each of you will be able to set your own working directory to proceed with 
 ## PART 1: Whats the difference between one sample per ring vesrus 15 consecutive samples per ring?
 ```{r}
 # here we will plot the seasonall high resol plot form the book
-# Read the  high resolution form 1998 and 1999 from Heliport site Sothern Arizona.
-HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv") 
-HEL_99 <- read.csv("Data_Notebook5_part1/high_res_HEL_1999.csv")
-VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,-1]
+# Read the  high resolution form 1998 from Heliport site Sothern Arizona.
+HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv") [,c(2,3,8)]
+VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,c(2,3,4)]
+colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236")
 
-days_doy <- c((VPD_HEL[,1]),rev(VPD_HEL[,1]))# growing season 
+```
 
-# separating the EW and the LW
-EW_1998 <- mean(HEL_98[,3][1:11], na.rm = T)
-LW_1998 <- mean(HEL_98[,3][12:16], na.rm = T)
-EW_1999 <-  mean(HEL_99[,3][1:12], na.rm = T)
-LW_1999 <-  mean(HEL_99[,3][13:16], na.rm = T)
+lest see the high resolution variations along the ring of 1998
+
+```{r}
+par(mar=c(4,4,2,2),lwd=0.5)
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+axis(1)
+axis(2,lwd=0.5,las=2)
+grid(lwd=1)
+box()
+
+lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
+legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1,lty=1,pch = 1)
+
+```
+
+Calculate the average value if you would  only collect 4 sections per ring
+
+```{r}
+#Here you will need to estimate the  average of the 4 diferent quarters  based on the thin sections provided.
+# example 
+# sellect the sections per quarter
+p25<- round(0.25*nrow(HEL_98),0)
+p50<- round(0.50*nrow(HEL_98),0)
+p75<- round(0.75*nrow(HEL_98),0)
+p100<- round(1*nrow(HEL_98),0)
+
+HEL_98_quarter  <- c(rep(mean(HEL_98[,2][1:p25], na.rm = T),length(1:p25)),
+                  rep(mean(HEL_98[,2][(1+p25):p50], na.rm = T),length((1+p25):p50)),
+                  rep(mean(HEL_98[,2][(1+p50):p75], na.rm = T),length((1+p50):p75)),
+                  rep(mean(HEL_98[,2][(1+p75):p100], na.rm = T),length((1+p75):p100)))
+
+
+```
+
+Ploting  the thin section and  the average per qurters
+```{r}
+par(mar=c(4,4,2,2),lwd=0.5)
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+axis(1)
+axis(2,lwd=0.5,las=2)
+grid(lwd=1)
+box()
+
+lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
+legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
+
+## Add here the new plot of the average on those 4 equaly distanced sections
+
+lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
+legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
+
+
+```
+
+
+Calculate the average value if you would  only collect one homogeneous sample form that year
+
+
+```{r}
+#Here you will need to estimate the  average of the ring based on the thin sections provided.
+# example 
+HEL_98_complete <- mean(HEL_98[,2])
+
+```
+
+
+```{r}
+
+par(mar=c(4,4,2,2),lwd=0.5)
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+axis(1)
+axis(2,lwd=0.5,las=2)
+grid(lwd=1)
+box()
+
+lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
+legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
+
+## Add here the new plot of the average on those 4 equaly distanced sections
+
+lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=1)
+legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
+
+abline(h = HEL_98_complete,col=colb1[1],lwd=3,lty=2)
+legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
+```
+
+
+```{r}
+# separating the EW and the LW Based on the figure we can estimate a % of EW and LW and based on this info  e can determine the sections on each anatomical region.
+EW_1998 <- mean(HEL_98[,2][1:11], na.rm = T)
+LW_1998 <- mean(HEL_98[,2][12:16], na.rm = T)
+EW_1999 <-  mean(HEL_99[,2][1:12], na.rm = T)
+LW_1999 <-  mean(HEL_99[,2][13:16], na.rm = T)
 
 # Read the VPD form 1998 and 1999 from Heliport site Sothern Arizona.
 ```
 
+```{r}
+
+par(mar=c(4,4,2,2),lwd=0.5)
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+axis(1)
+axis(2,lwd=0.5,las=2)
+grid(lwd=1)
+box()
+
+lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
+legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
+
+## Add here the new plot of the average on those 4 equaly distanced sections
+
+lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=1)
+legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
+
+abline(h = HEL_98_complete,col=colb1[1],lwd=1,lty=2)
+legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=1,lty=2)
+
+
+lines(HEL_98[,3][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=3  )#EW
+legend(x = 0.7, y = 32.5, legend = "Earlywood", col="darkblue" , bty = "n",lwd=3)
+
+lines(HEL_98[,3][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
+legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
+
+```
+
+Here is the VPD
 
 ```{r}
 #VPD_1998
-library(wesanderson)
-colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236") #<- wes_palette(4, name = "Zissou1", type = "continuous")
-
-par(mar=c(3,3,3,3),lwd=0.5)
-plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,150) , type = "n", axes = F, xlab = "", ylab = "")
+par(mar=c(4,4,2,2),lwd=0.5)
+plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,40) , type = "n", axes = F, xlab = "DOY", ylab = "VPD")
 polygon(x = days_doy, y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
 axis(1, at = seq(135,304,15),lwd=0.5,las=2)
-axis(4,at = seq(0,40, 10), las=2,lwd=0.5)
-
-
-par(new=T,mar=c(3,3,3,3),lwd=0.5)
-plot(HEL_98[,2], HEL_98[,3], type="n", ylim=c(23,34), xlim=c(135,304), axes=F)
-axis(2,lwd=0.5,las=2)
+axis(2,at = seq(0,40, 10), las=2,lwd=0.5)
 grid(lwd=1)
 box()
-
-lines( HEL_98[,2],HEL_98[,3], type="o",col=colb1[2],lwd=0.5, pch=1)
-legend(x = 260, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1,lty=1,pch = 1)
-
-lines(HEL_98[,2], HEL_98[,5],type="s",col=colb1[3],lwd=2  )
-legend(x = 260, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=1)
-
-lines(HEL_98[,2][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=2  )#EW
-legend(x = 260, y = 33, legend = "Earlywood", col="darkblue" , bty = "n",lwd=2)
-
-lines(HEL_98[,2][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
-legend(x = 260, y = 32.5, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
-
-lines(HEL_98[,2], HEL_98[,4],type="p", pch=20 , col="red", cex=3)
-legend(x = 260, y = 32, legend = "FLWB" , bty = "n", pch=20 , col="red",pt.cex = 3)
-
-abline(h = HEL_98[,7][1],col=colb1[1],lwd=1,lty=2)
-legend(x = 260, y = 31.5, legend = "annual mean", col=colb1[1] , bty = "n",lwd=1,lty=2)
-
-legend("top", legend = "1998", bty = "n", cex=3)
-
-
-
 ```
 
-
-```{r}
-
-
-par(mar=c(3,3,3,3),lwd=0.5)
-plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,150) , type = "n", axes = F, xlab = "", ylab = "")
-polygon(x = days_doy, y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
-axis(1, at = seq(135,304,15),lwd=0.5,las=2)
-axis(4,at = seq(0,40, 10), las=2,lwd=0.5)
-
-
-par(new=T,mar=c(3,3,3,3),lwd=0.5)
-plot(HEL_99[,2], HEL_99[,3], type="n", ylim=c(23,34), xlim=c(135,304), axes=F)
-axis(2,lwd=0.5,las=2)
-grid(lwd=1)
-box()
-
-lines( HEL_99[,2],HEL_99[,3], type="o",col=colb1[2],lwd=0.5, pch=1)
-legend(x = 260, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1,lty=1,pch = 1)
-
-lines(HEL_99[,2], HEL_99[,5],type="s",col=colb1[3],lwd=2  )
-legend(x = 260, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=1)
-
-lines(HEL_99[,2][1:11], rep(EW_1999, 11),type="s",col="darkblue",lwd=2  )#EW
-legend(x = 260, y = 33, legend = "Earlywood", col="darkblue" , bty = "n",lwd=2)
-
-lines(HEL_99[,2][12:16], rep(LW_1999, 5),type="s",col="darkred",lwd=3  )#LW
-legend(x = 260, y = 32.5, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
-
-lines(HEL_99[,2], HEL_99[,4],type="p", pch=20 , col="red", cex=3)
-legend(x = 260, y = 32, legend = "FLWB" , bty = "n", pch=20 , col="red",pt.cex = 3)
-
-abline(h = HEL_99[,7][1],col=colb1[1],lwd=1,lty=2)
-legend(x = 260, y = 31.5, legend = "annual mean", col=colb1[1] , bty = "n",lwd=1,lty=2)
-
-legend("top", legend = "1999", bty = "n", cex=3)
-
-
-```
 
 
 ## PART 2: seasonal correlations
