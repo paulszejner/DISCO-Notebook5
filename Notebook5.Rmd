@@ -12,9 +12,9 @@ Instructions:
 
 The following code and comments should further your experience of the use and interpretation of tree ring Carbon and Oxygen isotopes measurements in cellulose at high temporal resolution. 
 
-The first part of this exercise relies upon high temporal-intra annual resolution measurements of C and O isotope for one year/growing season (1998) from a tree located in US SW (HEL Site) and is based on concepts reviewed in tree ring formation (Xylogenesis), sampling design and strategy, and seasonal coupling of climate and ecophysiology.   
+The first part of this exercise relies upon high temporal-intra annual resolution measurements of O isotopes for one year/growing season (1998) from a tree located in US SW (HEL Site) and is based on concepts reviewed in tree ring formation (Xylogenesis), sampling design and strategy, and seasonal coupling of climate and ecophysiology.  
 
-The Second part of this exercise relies upon seasonal resolution  (earlywood and latewood) measurements of C and O for the XX period from multiple trees located in US SW (X Site).
+The Second part of this exercise relies upon seasonal resolution  (earlywood and latewood) measurements of C and O for the XX period from multiple trees located in US SW (X Site). In this part, you will explore seasonal differences in C and O absolute values, their correlations to seasonal climate and their interpretation in terms of sesonal ecophysiological responses
 
 You will need to download the R project from https://github.com/paulszejner/Notebook-5.git 
 then each of you will be able to set your own working directory to proceed with this excersises. once you open the Notebook 5.Rproj  you can open  the Notebook 5.Rmd file to proceed with the activity.
@@ -22,7 +22,7 @@ then each of you will be able to set your own working directory to proceed with 
 
 
 ## PART 1: Intra-seasonal sampling strategy and corresponding climate signal
-The Year 1998 was sampled at X microns for a total of X think sections and O measurements
+The Year 1998 was sampled at X microns for a total of X thin sections and O measurements
 ```{r}
 # Read the high resolution O and C data for 1998.
 HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv") [,c(2,3,8)]
