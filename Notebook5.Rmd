@@ -25,8 +25,7 @@ The Whole ring of the year 1998 was sampled at X microns (using a microtome) for
 ```{r}
 # Read the high resolution 18O data for 1998.
 HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv") [,c(2,3,8)]
-VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,c(2,3,4)]
-colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236")
+colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236") # color vector
 
 ```
 
@@ -34,7 +33,7 @@ In this next steps, we will explore the seasonal variations of 18O recorded thro
 First, plot the thin sections throughout 1998. These will be plotted versus their relative position in the Ring starting from the latewood/earlywood boundary of 1997 or the earlywood onset of 1998.
 ```{r}
 par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position", ylab = "d18O (permill.VSMOW)")
 axis(1)
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
@@ -45,12 +44,12 @@ legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1
 
 ```
 
-Calculate the average value if you would  only collect 4 sections per ring
+Now, plot the d 18O assuming that you sub-sampled this ring in 4 section.
+
+For this, you need to calculate the average value of 4 sections per ring (16 thin sections/4= 4 ring section or quarters)
 
 ```{r}
-#Here you will need to estimate the  average of the 4 diferent quarters  based on the thin sections provided.
-# example 
-# sellect the sections per quarter
+# select the sections per quarter
 p25<- round(0.25*nrow(HEL_98),0)
 p50<- round(0.50*nrow(HEL_98),0)
 p75<- round(0.75*nrow(HEL_98),0)
@@ -64,10 +63,10 @@ HEL_98_quarter  <- c(rep(mean(HEL_98[,2][1:p25], na.rm = T),length(1:p25)),
 
 ```
 
-Ploting  the thin section and  the average per qurters
+Add the d18O values of these quarter to the previous plot:
 ```{r}
 par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position ", ylab = "d18O (permill.VSMOW)")
 axis(1)
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
@@ -76,17 +75,46 @@ box()
 lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
 legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
 
-## Add here the new plot of the average on those 4 equaly distanced sections
-
+# add the values of the quarters (equally distanced thin sections)
 lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
 legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
 
-
 ```
 
+Now, plot the d18O assuming you analyze the earlywood (EW) and latewood (LW) portions of the ring.
+We know from ring width measurements and sample preparation that the EW/LW boundary is at X microns.
+```{r}
+#  We can estimate a % of EW and LW from total thin sections measurements as follows:
+EW_1998 <- mean(HEL_98[,2][1:11], na.rm = T)
+LW_1998 <- mean(HEL_98[,2][12:16], na.rm = T)
+```
 
-Calculate the average value if you would  only collect one homogeneous sample form that year
+Add the d18O values of EW and LW to the previous plot:
+```{r}
+par(mar=c(4,4,2,2),lwd=0.5)
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position ", ylab = "d18O (permill.VSMOW)")
+axis(1)
+axis(2,lwd=0.5,las=2)
+grid(lwd=1)
+box()
 
+lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
+legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
+
+# add the values of the quarters (equally distanced thin sections)
+lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
+legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
+
+# Add the values EW and LW 
+lines(HEL_98[,3][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=3  )#EW
+legend(x = 0.7, y = 32.5, legend = "Earlywood", col="darkblue" , bty = "n",lwd=3)
+
+lines(HEL_98[,3][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
+legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
+
+```
+Now, plot the d 18O assuming you analyze the whole ring.
+For this, calculate the average value using all the thin sections
 
 ```{r}
 #Here you will need to estimate the  average of the ring based on the thin sections provided.
@@ -97,9 +125,8 @@ HEL_98_complete <- mean(HEL_98[,2])
 
 
 ```{r}
-
 par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position ", ylab = "d18O (permill.VSMOW)")
 axis(1)
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
@@ -108,58 +135,38 @@ box()
 lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
 legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
 
-## Add here the new plot of the average on those 4 equaly distanced sections
-
-lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=1)
+# add the values of the quarters (equally distanced thin sections)
+lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
 legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
 
-abline(h = HEL_98_complete,col=colb1[1],lwd=3,lty=2)
-legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
-```
-
-
-```{r}
-# separating the EW and the LW Based on the figure we can estimate a % of EW and LW and based on this info  e can determine the sections on each anatomical region.
-EW_1998 <- mean(HEL_98[,2][1:11], na.rm = T)
-LW_1998 <- mean(HEL_98[,2][12:16], na.rm = T)
-EW_1999 <-  mean(HEL_99[,2][1:12], na.rm = T)
-LW_1999 <-  mean(HEL_99[,2][13:16], na.rm = T)
-
-# Read the VPD form 1998 and 1999 from Heliport site Sothern Arizona.
-```
-
-```{r}
-
-par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
-axis(1)
-axis(2,lwd=0.5,las=2)
-grid(lwd=1)
-box()
-
-lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
-legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
-
-## Add here the new plot of the average on those 4 equaly distanced sections
-
-lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=1)
-legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
-
-abline(h = HEL_98_complete,col=colb1[1],lwd=1,lty=2)
-legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=1,lty=2)
-
-
+# Add the values EW and LW 
 lines(HEL_98[,3][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=3  )#EW
 legend(x = 0.7, y = 32.5, legend = "Earlywood", col="darkblue" , bty = "n",lwd=3)
 
 lines(HEL_98[,3][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
 legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
-
+# add the annual 18O value
+abline(h = HEL_98_complete,col=colb1[1],lwd=3,lty=2)
+legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
 ```
+In these various steps, you can see that the values of d18O measurements depend on the temporal resolution.
+Question 1: Describe the difference of d18O based on the 4 temporal resolution chosen.
+Question 2: Discuss how ecophysiological interpretation differs between:
 
-Here is the VPD
+a) whole ring 18O vs thin sections
+b) whole ring 18O vs EW and LW
+c) whole ring 18O vs quarters
+
+
+Now, we will look into the climate drivers of d18O seasonality. Based on previous studies, vapor pressure deficit (VPD)
+has been shown to drive variations in tree ring d18O. This is mainly through its effect on leaf water enrichment.
+
+Plot VPD with tree ring d18O at various temporal resolution
 
 ```{r}
+#read VPD data for this site
+VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,c(2,3,4)]
+# Note that the VPD values are reported for Day of the year
 #VPD_1998
 par(mar=c(4,4,2,2),lwd=0.5)
 plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,40) , type = "n", axes = F, xlab = "DOY", ylab = "VPD")
@@ -170,6 +177,14 @@ grid(lwd=1)
 box()
 ```
 
+Question 3: Based on seasonal variations of VPD and d18O. Describe how this tree ecophysiology responded to VPD throughout the season.
+
+Question 4: How did VPD affect the d18O signal, and why does it vary seasonally 
+Question 5: What temporal resolution would you choose if you have to investigate:
+
+a) What drives productivity in US SW trees 
+b) How climate drives productivity and tree physiology
+c) climate variations at centennial time scale and their link to atmospheric circulation patterns.
 
 
 ## PART 2: seasonal correlations
@@ -186,6 +201,3 @@ EW.c
 ```
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
