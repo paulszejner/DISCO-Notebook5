@@ -10,29 +10,28 @@ output: html_notebook
 
 Instructions:
 
-The following code and comments should further your experience of the use and interpretation of tree ring Carbon and Oxygen isotopes measurements in cellulose at high temporal resolution. 
+The following code and comments should further your experience of the use and interpretation of tree ring Carbon and Oxygen isotope measurements in cellulose at high temporal resolution. 
 
-The first part of this exercise relies upon high temporal-intra annual resolution measurements of O isotopes for one year/growing season (1998) from a tree located in US SW (HEL Site) and is based on concepts reviewed in tree ring formation (Xylogenesis), sampling design and strategy, and seasonal coupling of climate and ecophysiology.  
+The first part of this exercise relies upon high temporal-intra annual resolution measurements of 18O isotopes for one year/growing season (1998) from a tree located in US SW (HEL Site) and is based on concepts reviewed in tree ring formation (Xylogenesis), sampling design and strategy, and seasonal coupling of climate and ecophysiology.  
 
-The Second part of this exercise relies upon seasonal resolution  (earlywood and latewood) measurements of C and O for the XX period from multiple trees located in US SW (X Site). In this part, you will explore seasonal differences in C and O absolute values, their correlations to seasonal climate and their interpretation in terms of sesonal ecophysiological responses
+The Second part of this exercise relies upon seasonal resolution (earlywood and latewood) measurements of 13C and 18O for the XX period from multiple trees located in US SW (X Site). In this part, you will explore seasonal differences in C and O absolute values, their correlations to seasonal climate and their interpretation in terms of seasonal ecophysiological responses.
 
-You will need to download the R project from https://github.com/paulszejner/Notebook-5.git 
-then each of you will be able to set your own working directory to proceed with this excersises. once you open the Notebook 5.Rproj  you can open  the Notebook 5.Rmd file to proceed with the activity.
-
+You will need to download the R project from https://github.com/paulszejner/Notebook-5.git and to set your own working directory. Once you open the Notebook 5.Rproj in R studio  you can open the Notebook 5.Rmd file to proceed with the activity.
 
 
-## PART 1: Intra-seasonal sampling strategy and corresponding climate signal
-The Year 1998 was sampled at X microns for a total of X thin sections and O measurements
+
+## PART 1: Intra-seasonal sampling design
+The Whole ring of the year 1998 was sampled at X microns (using a microtome) for a total of 16 thin sections and 18O measurements
 ```{r}
-# Read the high resolution O and C data for 1998.
+# Read the high resolution 18O data for 1998.
 HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv") [,c(2,3,8)]
 VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,c(2,3,4)]
 colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236")
 
 ```
 
-In this next steps, we will explore the seasonal variations of C and O recorded throughout the 1998 growing season
-First, plot the thin sections throughout 1998. These will be plotted versus their relative position in the Ring starting deom the latewood/earlywood boundary of 1997 or the earlywood onset of 1998
+In this next steps, we will explore the seasonal variations of 18O recorded throughout the 1998 growing season.
+First, plot the thin sections throughout 1998. These will be plotted versus their relative position in the Ring starting from the latewood/earlywood boundary of 1997 or the earlywood onset of 1998.
 ```{r}
 par(mar=c(4,4,2,2),lwd=0.5)
 plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
