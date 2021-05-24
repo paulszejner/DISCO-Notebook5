@@ -208,8 +208,8 @@ LW.18O <- ts(RCP_iso[,4], start=1930, frequency=1)
 
 PLot the time series of EW and LW isotopes
 ```{r}
-par(mar=c(4,4,2,0))
-layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(5,5),heights = c(4,4),respect = TRUE)
+par(mar=c(4,4.5,2,0.2))
+layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(1.7,1.7),respect = TRUE)
 ts.plot(EW.13C,ylab="d13C (permill.VPDB)",xlab="Years", col="#9C964A",main="13C")
 lines(LW.13C,col="#9C964A", lty=6)
 legend("topright", c("EW","LW"), lty=c(1,6), col=c("#9C964A","#9C964A"), text.col =c("#9C964A","#9C964A"), bty = "n")
@@ -231,8 +231,8 @@ diff.18O <- abs(LW.18O-EW.18O)
 
 PLot the EW-LW difference for each isotope
 ```{r}
-par(mar=c(4,4,2,0))
-layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(5,5),heights = c(4,4),respect = TRUE)
+par(mar=c(4,4.5,2,0.2))
+layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(1.7,1.7),respect = TRUE)
 ts.plot(diff.13C,ylab="Diff EW-LW",xlab="Years", col="#9C964A",main="13C")
 ts.plot(diff.18O,ylab="Diff EW-LW",xlab="Years", col="purple3",main="18O")
 ```
@@ -247,7 +247,7 @@ Explore the climate drivers of EW and LW for each isotope
 ```{r}
 # Read climate variables: VPD and precipitation. These data are from PRISM and cover the period from 1895-2015
 RCP.vpd <- ts((read.csv("Data_Notebook5_part2/RCP_VPD_prism(monthly_1895_2015).csv")[,c(2:13)]), start=1895, frequency=1)
-# RCP.pcp <- 
+RCP.pcp <- ts((read.csv("Data_Notebook5_part2/RCP_precipitation_(mm)_1901-2012.csv")[,c(2:13)]), start=1901, frequency=1)
 # Note that you need to subset the climate data for the period of the tree ring record (1930-2012)
 ```
 
