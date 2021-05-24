@@ -3,158 +3,171 @@ title: "High temporal resolution Isotope measurements in Tree rings"
 output: html_notebook
 ---
 #####  Isotope Dendrochronology
-#####  Mechanistic model of the Oxygen isotopes in cellulose.
+#####  High temporal resolution Isotope measurements in Tree rings.
 #####  COURSE: DISC, LTRR, UNIVERSITY OF ARIZONA. INSTRUCTORS: S. BELMECHERI & P. SZEJNER
-
 
 
 Instructions:
 
-The following code and comments should further your experience of using tree ring Carbon and Oxygen isotopes in cellulose. This exercise relies upon high temporal resolution measurements ie. intra annual measurements in the cellulose that we can date in tree rings. As we connect the prosesses of xylogenesis and carbon fixation during the ring formation, the premise here is that the first sections of a tree ring, will be fixing specific carbohydrates that have a different isotopic signal than the last sections of the ring in which the environmental conditions are different.
+The following code and comments should further your experience of the use and interpretation of tree ring Carbon and Oxygen isotope measurements in cellulose at high temporal resolution. 
 
-You will need to download the R project from https://github.com/paulszejner/Notebook-5.git 
-then each of you will be able to set your own working directory to proceed with this excersises. once you open the Notebook 5.Rproj  you can open  the Notebook 5.Rmd file to proceed with the activity.
+The first part of this exercise relies upon high temporal-intra annual resolution measurements of 18O isotopes for one year/growing season (1998) from a tree located in US SW (HEL Site) and is based on concepts reviewed in tree ring formation (Xylogenesis), sampling design and strategy, and seasonal coupling of climate and ecophysiology.  
+
+The Second part of this exercise relies upon seasonal resolution (earlywood and latewood) measurements of 13C and 18O for the 1930-2012 period from multiple trees (n=5) located in US SW (RCP Site). In this part, you will explore seasonal differences in C and O absolute values, their correlations to seasonal climate and their interpretation in terms of seasonal ecophysiological responses.
+
+You will need to download the R project from https://github.com/paulszejner/Notebook-5.git and to set your own working directory. Once you open the Notebook 5.Rproj in R studio  you can open the Notebook 5.Rmd file to proceed with the activity.
 
 
 
-## PART 1: Whats the difference between one sample per ring vesrus 15 consecutive samples per ring?
+## PART 1: Sampling resolution: Annual to intra-seasonal
+
+Increasing the number of samples per tree-ring may provide additional data. But to be useful in any given research effort, the increase in the sampling resolution must provide additional
+information that is pertinent to answering the research question. We will explore this question by investigating d18O at various temporal resolutions: from low (annual) to high (100 μm) 
+within one year (one tree ring). The Whole ring of the year 1998 was sampled at 100 microns (using a microtome) for a total of 16 thin sections and 18O measurements.
+In this next steps, we will explore the seasonal variations of 18O recorded throughout the 1998 growing season and what d18O signal is recovered depending on the sampling resolution.
+
+1.1. 100 μm thin sections:
+
 ```{r}
-# here we will plot the seasonall high resol plot form the book
-# Read the  high resolution form 1998 from Heliport site Sothern Arizona.
+# Read the high resolution 18O data for 1998.
 HEL_98 <- read.csv("Data_Notebook5_part1/high_res_HEL_1998.csv") [,c(2,3,8)]
-VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,c(2,3,4)]
-colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236")
-
+# color vector for plots
+colb1 <- c("#D8B70A","#02401B","#A2A475","#D67236") 
 ```
 
-lest see the high resolution variations along the ring of 1998
-
+First, plot the thin sections throughout 1998. These will be plotted versus their relative position in the Ring starting from the latewood/earlywood boundary of 1997 or the earlywood onset of 1998.
 ```{r}
 par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position", ylab = "d18O (permill.VSMOW)")
 axis(1)
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
 box()
-
 lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
 legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1,lty=1,pch = 1)
-
 ```
 
-Calculate the average value if you would  only collect 4 sections per ring
+
+1.2. Quartiles:
+
+Now, plot the d 18O assuming that you sub-sampled this ring in 4 sections.
+For this, you need to calculate the average d18O value of 4 consecutive thin sections per ring (16 thin sections/4= 4 ring sections or quartiles)
 
 ```{r}
-#Here you will need to estimate the  average of the 4 diferent quarters  based on the thin sections provided.
-# example 
-# sellect the sections per quarter
+# select the sections per quarter
 p25<- round(0.25*nrow(HEL_98),0)
 p50<- round(0.50*nrow(HEL_98),0)
 p75<- round(0.75*nrow(HEL_98),0)
 p100<- round(1*nrow(HEL_98),0)
-
 HEL_98_quarter  <- c(rep(mean(HEL_98[,2][1:p25], na.rm = T),length(1:p25)),
                   rep(mean(HEL_98[,2][(1+p25):p50], na.rm = T),length((1+p25):p50)),
                   rep(mean(HEL_98[,2][(1+p50):p75], na.rm = T),length((1+p50):p75)),
                   rep(mean(HEL_98[,2][(1+p75):p100], na.rm = T),length((1+p75):p100)))
-
-
 ```
 
-Ploting  the thin section and  the average per qurters
+
+Add the d18O values of these quartiles to the previous plot:
 ```{r}
 par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position ", ylab = "d18O (permill.VSMOW)");box()
 axis(1)
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
-box()
-
 lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
 legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
-
-## Add here the new plot of the average on those 4 equaly distanced sections
-
+# add the values of the quarters (equally distanced thin sections)
 lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
 legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
-
-
 ```
 
+1.3. Earlywood/Latewood
 
-Calculate the average value if you would  only collect one homogeneous sample form that year
-
-
+Now, plot the d18O assuming you sub-sampled the earlywood (EW) and latewood (LW) portions (or subdivisions) of the ring.
+We know from ring width measurements and sample preparation that the EW/LW boundary is at 110 microns (1.1 mm).
 ```{r}
-#Here you will need to estimate the  average of the ring based on the thin sections provided.
-# example 
-HEL_98_complete <- mean(HEL_98[,2])
-
+#  We can estimate a % of EW and LW from total thin sections measurements as follows:
+EW_1998 <- mean(HEL_98[,2][1:11], na.rm = T)
+LW_1998 <- mean(HEL_98[,2][12:16], na.rm = T)
 ```
 
-
+Add the d18O values of EW and LW to the previous plot:
 ```{r}
-
 par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position ", ylab = "d18O (permill.VSMOW)");box()
 axis(1)
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
-box()
-
 lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
 legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
-
-## Add here the new plot of the average on those 4 equaly distanced sections
-
-lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=1)
+# add the values of the quarters (equally distanced thin sections)
+lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
 legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
-
-abline(h = HEL_98_complete,col=colb1[1],lwd=3,lty=2)
-legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
+# Add the values EW and LW 
+lines(HEL_98[,3][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=3  )#EW
+legend(x = 0.7, y = 32.5, legend = "Earlywood", col="darkblue" , bty = "n",lwd=3)
+lines(HEL_98[,3][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
+legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
 ```
 
+1.4. Whole-ring:
 
+Now, plot the d 18O assuming you sampled the whole ring.
+For this, calculate the average value using all the thin sections
 ```{r}
+<<<<<<< HEAD
 # separating the EW and the LW Based on the figure we can estimate a % of EW and LW and based on this info  e can determine the sections on each anatomical region.
 EW_1998 <- mean(HEL_98[,2][1:11], na.rm = T)
 LW_1998 <- mean(HEL_98[,2][12:16], na.rm = T)
 
 # Read the VPD form 1998 and 1999 from Heliport site Sothern Arizona.
+=======
+#Here you will need to estimate the  average of the ring based on the thin sections provided.
+# example 
+HEL_98_complete <- mean(HEL_98[,2])
+>>>>>>> a0bee387aecbf2ae87b4f9ddbef336a4c3fb2525
 ```
 
+Add the d18O values of the whole ring to the previous plot:
 ```{r}
-
 par(mar=c(4,4,2,2),lwd=0.5)
-plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position on the ring", ylab = "d18O_ on each thin section")
+plot(HEL_98[,3], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(0,1), axes=F, xlab = "relative position ", ylab = "d18O (permill.VSMOW)");box()
 axis(1)
 axis(2,lwd=0.5,las=2)
 grid(lwd=1)
-box()
-
 lines( HEL_98[,3],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
 legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
-
-## Add here the new plot of the average on those 4 equaly distanced sections
-
-lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=1)
+# add the values of the quarters (equally distanced thin sections)
+lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
 legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
-
-abline(h = HEL_98_complete,col=colb1[1],lwd=1,lty=2)
-legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=1,lty=2)
-
-
+# Add the values EW and LW 
 lines(HEL_98[,3][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=3  )#EW
 legend(x = 0.7, y = 32.5, legend = "Earlywood", col="darkblue" , bty = "n",lwd=3)
-
 lines(HEL_98[,3][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
 legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
-
+# add the annual 18O value
+abline(h = HEL_98_complete,col=colb1[1],lwd=3,lty=2)
+legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
 ```
+In these various steps, you can see that the obtained values of d18O depend on the temporal resolution.
 
-Here is the VPD
+Question 1: Describe the differences of d18O values based on the chosen 4 temporal resolutions.
+
+Question 2: Discuss how ecophysiological interpretation differs between:
+
+a) whole ring d18O vs thin sections
+b) whole ring d18O vs EW and LW
+c) whole ring d18O vs quartiles
+
+
+Now, we will look into the climate drivers of d18O seasonality. Based on previous studies at this site, vapor pressure deficit (VPD)
+has been shown to drive variations in tree ring d18O. This is mainly through its effect on leaf water enrichment.
+
+Plot VPD with tree ring d18O at various temporal resolution
 
 ```{r}
+#read VPD data for this site
+VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,c(2,3,4)]
+# Note that the VPD values are reported for Day of the year
 #VPD_1998
 par(mar=c(4,4,2,2),lwd=0.5)
 plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,40) , type = "n", axes = F, xlab = "DOY", ylab = "VPD")
@@ -165,22 +178,168 @@ grid(lwd=1)
 box()
 ```
 
+Question 3: Based on seasonal variations of VPD and d18O. Describe how tree physiology responded to VPD variability throughout the season.
+
+Question 4: How did VPD affect the d18O signal recorded in tree ring, and why does d18O vary seasonally in response to VPD? 
+
+Question 5: What temporal resolution would you choose if you have to investigate:
+
+a) What environmental factors drive productivity in US SW trees? 
+b) How climate drives productivity and tree physiology
+c) climate variations at centennial time scale and their link to atmospheric circulation patterns.
+
+Question 6: Monsoonal and Mediterranean climates are good examples of climate regimes with consistent inter-annual and intra-annual climate changes. 
+Such distinct climate variations can result in seasonal and subseasonal changes in the stable isotope ratios fixed in the tree-ring cellulose.
+The example we used above is from a tree growing in a monsoonal climate with a distinct bi-modal distribution of precipitation and a marked VPD shift from hyper-arid to monsoon conditions.
+If you were about to conduct an isotope-based study to understand tree physiology in a Boreal or a Temperate forest in response to environemental drivers:
+
+a) What temporal resolution would you choose?
+b) What considerations will factor in your sampling design and strategy?
 
 
-## PART 2: seasonal correlations
+
+## PART 2: Seasonal variations in C and O isotopes and their climate influence
+In this part, we will explore temporal variations at decadal scale of tree ring  C and O isotopes measured in EW and LW.
+
+We will also investigate how climate influence both isotope's seasonal variations and what this reveals about tree physiology.
+
+First read the seasonal C and O data
 ```{r}
-# here we will conduct the seasonal correlations
-# using the data in this project lcated in "Data_Notebook5_part2"
+RCP_iso <- read.csv("Data_Notebook5_part2/RCP_Isotope_data_EW_LW.csv")[,c(2:5)]
+EW.13C <- ts(RCP_iso[,1], start=1930, frequency=1)
+LW.13C <- ts(RCP_iso[,2], start=1930, frequency=1)
+EW.18O <- ts(RCP_iso[,3], start=1930, frequency=1)
+LW.18O <- ts(RCP_iso[,4], start=1930, frequency=1)
+```
 
+PLot the time series of EW and LW isotopes
+```{r}
+par(mar=c(4,4,2,0))
+layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(5,5),heights = c(4,4),respect = TRUE)
+ts.plot(EW.13C,ylab="d13C (permill.VPDB)",xlab="Years", col="#9C964A",main="13C")
+lines(LW.13C,col="#9C964A", lty=6)
+legend("topright", c("EW","LW"), lty=c(1,6), col=c("#9C964A","#9C964A"), text.col =c("#9C964A","#9C964A"), bty = "n")
+ts.plot(EW.18O,ylab="d18O (permill.VSMOW)",xlab="Years", col="purple3",main="18O")
+lines(LW.18O,col="purple3", lty=6)
+legend("bottomright", c("EW","LW"), lty=c(1,6), col=c("purple3","purple3"), text.col =c("purple3","purple3"), bty = "n")
+```
+Question 7: Describe the temporal variations (interannual) of each isotope and for each tree ring portion (EW & LW)
+
+Question 8: Describe the temporal trends of f each isotope and for each tree ring subdivision (EW & LW)
+
+We will explore the differences between EW and LW for each isotope
+
+```{r}
+# First  calculate the difference between EW and LW for each isotope
+diff.13C <- abs(LW.13C-EW.13C)
+diff.18O <- abs(LW.18O-EW.18O)
+```
+
+PLot the EW-LW difference for each isotope
+```{r}
+par(mar=c(4,4,2,0))
+layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(5,5),heights = c(4,4),respect = TRUE)
+ts.plot(diff.13C,ylab="Diff EW-LW",xlab="Years", col="#9C964A",main="13C")
+ts.plot(diff.18O,ylab="Diff EW-LW",xlab="Years", col="purple3",main="18O")
+```
+Question 9: Describe the EW-LW differences for each isotope:
+
+a) do they differ between O and C?
+b) do they exhibit a temporal trend?
+c) do they exhibit a change in the variance?
+          
+
+Explore the climate drivers of EW and LW for each isotope
+```{r}
+# Read climate variables: VPD and precipitation. These data are from PRISM and cover the period from 1895-2015
+RCP.vpd <- ts((read.csv("Data_Notebook5_part2/RCP_VPD_prism(monthly_1895_2015).csv")[,c(2:13)]), start=1895, frequency=1)
+# RCP.pcp <- 
+# Note that you need to subset the climate data for the period of the tree ring record (1930-2012)
+```
+
+Explore the climatology of the RCP site. This will facilitate the interpretation of seasonal variability of isotopes recorded in tree rings.
+```{r}
+# you can use monthly averages to look at seasonal patterns of VPD and PCP (barplot)
+```
+
+
+Correlate EW and LW isotopes with monthly VPD and PCP
+
+First, Combine isotope and climate matrices
+```{r}
+# For VPD
+EW.13C.vpd <- ts.union(EW.13C,RCP.vpd)
+LW.13C.vpd <- ts.union(LW.13C,RCP.vpd)
+EW.18O.vpd <- ts.union(EW.18O,RCP.vpd)
+EW.18O.vpd <- ts.union(EW.18O,RCP.vpd)
+
+# For Precipitation
+EW.13C.pcp <- ts.union(EW.13C,RCP.pcp)
+LW.13C.pcp <- ts.union(LW.13C,RCP.pcp)
+EW.18O.pcp <- ts.union(EW.18O,RCP.pcp)
+EW.18O.pcp <- ts.union(EW.18O,RCP.pcp)
 
 ```
-# Read the seasonal isotopic data
+
+Then run the correlations
 ```{r}
-EW.c
-
+# here is an example for EW13C and VPD including renaming the columns for better plots
+correl.EW.13C.vpd <- cor(EW.13C.vpd,use="p"); colnames(correl.EW.13C.vpd) <- c("EW.13C", colnames(RCP.vpd))
+# repeat these steps for the other tree ring portions and climate variables
 ```
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+Plot the correlations between monthly climate data and the `C & O isotopes for each ring subdivision
+```{r}
+# here is a skeleton for a plot that includes only EW13C and VPD
+# you will need to add the plots for other variables. 
+layout(matrix(1:4,nrow = 2, ncol = 2,byrow = F), widths = c(4,4,4,4),heights = c(3,3,3,3),respect = TRUE)
+barplot(correl.EW.13C.vpd[1,2:13],las=3,col=c("turquoise3"),ylab="Correlation", main="EW 13C VPD")
+# add other  subdivisions
+# You can repeat the plot for precipitations
+```
+Question 10: Describe the correlations for each tree ring subdivision and identify which the months/seasons exhibit the highest correlations.
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+Question 11: What are the differences in the seasonality of the correlations:
+
+a) among tree-ring subdivisions (EW vs LW) for the same isotope.
+b) among isotopes ( O and C) for different climate variables (VPD and PCP).
+
+
+Correlate and plot the EW-LW differences with VPD and PCP
+```{r}
+# Combine matrices
+diff.13C.vpd <- ts.union(diff.13C, RCP.vpd)
+diff.18O.vpd <- ts.union(diff.18O, RCP.vpd)
+
+diff.13C.pcp <- ts.union(diff.13C, RCP.pcp)
+diff.18O.pcp <- ts.union(diff.18O, RCP.pcp)
+
+# run correlations
+corr.diff.13C.vpd <- cor(diff.13C.vpd,use="p"); colnames(corr.diff.13C.vpd) <- c("diff.13C", colnames(RCP.vpd))
+corr.diff.18O.vpd <- cor(diff.18O.vpd,use="p"); colnames(corr.diff.18O.vpd) <- c("diff.18O", colnames(RCP.vpd))
+
+corr.diff.13C.pcp <- cor(diff.13C.pcp,use="p"); colnames(corr.diff.13C.pcp) <- c("diff.13C", colnames(RCP.vpd))
+corr.diff.18O.pcp <- cor(diff.18O.pcp,use="p"); colnames(corr.diff.18O.pcp) <- c("diff.18O", colnames(RCP.vpd))
+```
+
+Look at the correlation matrices and identify the months or seasons with the highest correlations
+```{r}
+# here is one example
+corr.diff.13C.vpd [1,2:13]
+```
+
+Alternatively, you can explore the linear relationship with the months /seasons identified in the step above
+```{r}
+# here is an example with MAY VPD 
+linear.diff.13C.vpd <- lm(diff.13C~ RCP.vpd[,"May"])
+```
+
+Question 12: is there a statistically significant relationship between the EW-LW difference and climate?
+
+Question 13: based on the seasonality of climate correlations for each tree ring subdivision, discuss:
+
+a) how tree physiology varies seasonally in response to VPD and PCP.
+b) how are VPD and PCP affecting leaf water enrichment and stomatal conductance.
+c) how these effects translate into the recorded C and O values.
+
+
