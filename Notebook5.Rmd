@@ -119,8 +119,6 @@ legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,l
 # separating the EW and the LW Based on the figure we can estimate a % of EW and LW and based on this info  e can determine the sections on each anatomical region.
 EW_1998 <- mean(HEL_98[,2][1:11], na.rm = T)
 LW_1998 <- mean(HEL_98[,2][12:16], na.rm = T)
-EW_1999 <-  mean(HEL_99[,2][1:12], na.rm = T)
-LW_1999 <-  mean(HEL_99[,2][13:16], na.rm = T)
 
 # Read the VPD form 1998 and 1999 from Heliport site Sothern Arizona.
 ```
@@ -160,7 +158,7 @@ Here is the VPD
 #VPD_1998
 par(mar=c(4,4,2,2),lwd=0.5)
 plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,40) , type = "n", axes = F, xlab = "DOY", ylab = "VPD")
-polygon(x = days_doy, y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
+polygon(x = c(VPD_HEL[,1], rev(VPD_HEL[,1])), y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
 axis(1, at = seq(135,304,15),lwd=0.5,las=2)
 axis(2,at = seq(0,40, 10), las=2,lwd=0.5)
 grid(lwd=1)
