@@ -114,17 +114,11 @@ legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
 Now, plot the d 18O assuming you sampled the whole ring.
 For this, calculate the average value using all the thin sections
 ```{r}
-<<<<<<< HEAD
-# separating the EW and the LW Based on the figure we can estimate a % of EW and LW and based on this info  e can determine the sections on each anatomical region.
-EW_1998 <- mean(HEL_98[,2][1:11], na.rm = T)
-LW_1998 <- mean(HEL_98[,2][12:16], na.rm = T)
 
-# Read the VPD form 1998 and 1999 from Heliport site Sothern Arizona.
-=======
 #Here you will need to estimate the  average of the ring based on the thin sections provided.
 # example 
 HEL_98_complete <- mean(HEL_98[,2])
->>>>>>> a0bee387aecbf2ae87b4f9ddbef336a4c3fb2525
+
 ```
 
 Add the d18O values of the whole ring to the previous plot:
