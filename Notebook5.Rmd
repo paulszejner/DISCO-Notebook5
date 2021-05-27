@@ -15,7 +15,7 @@ The first part of this exercise relies upon high temporal-intra annual resolutio
 
 The Second part of this exercise relies upon seasonal resolution (earlywood and latewood) measurements of 13C and 18O for the 1930-2012 period from multiple trees (n=5) located in US SW (RCP Site). In this part, you will explore seasonal differences in C and O absolute values, their correlations to seasonal climate and their interpretation in terms of seasonal ecophysiological responses.
 
-You will need to download the R project from https://github.com/paulszejner/Notebook-5.git and to set your own working directory. Once you open the Notebook 5.Rproj in R studio  you can open the Notebook 5.Rmd file to proceed with the activity.
+You will need to download the R project from https://github.com/paulszejner/DISCO-Notebook5.git and to set your own working directory. Once you open the Notebook 5.Rproj in R studio  you can open the Notebook 5.Rmd file to proceed with the activity.
 
 
 
@@ -258,10 +258,17 @@ diff.18O <- abs(LW.18O-EW.18O)
 
 PLot the EW-LW difference for each isotope
 ```{r}
-par(mar=c(4,4.5,2,0.2))
-layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(1.7,1.7),respect = TRUE)
-ts.plot(diff.13C,ylab="Diff EW-LW",xlab="Years", col="#9C964A",main="13C")
-ts.plot(diff.18O,ylab="Diff EW-LW",xlab="Years", col="purple3",main="18O")
+par(mar=c(4,4,1,0.2))
+layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(2),respect = TRUE)
+plot(diff.13C,ylab="Diff EW-LW",xlab="Years", col="#9C964A",main="13C")
+
+par(mar=c(4,0.2,1,4))
+plot(diff.18O,ylab="",xlab="Years", col="purple3",main="18O", axes=F)
+axis(1)
+axis(4)
+box()
+mtext("Diff EW-LW", side = 4, line = 2.5)
+
 ```
 Question 9: Describe the EW-LW differences for each isotope:
 
@@ -306,6 +313,7 @@ Then run the correlations
 ```{r}
 # here is an example for EW13C and VPD including renaming the columns for better plots
 correl.EW.13C.vpd <- cor(EW.13C.vpd,use="p"); colnames(correl.EW.13C.vpd) <- c("EW.13C", colnames(RCP.vpd))
+
 # repeat these steps for the other tree ring subdivisions and climate variables
 ```
 
@@ -315,6 +323,8 @@ Plot the correlations between monthly climate data and the C & O isotopes for ea
 # you will need to add the plots for other variables. 
 layout(matrix(1:4,nrow = 2, ncol = 2,byrow = F), widths = c(4,4,4,4),heights = c(3,3,3,3),respect = TRUE)
 barplot(correl.EW.13C.vpd[1,2:13],las=3,col=c("turquoise3"),ylab="Correlation", main="EW 13C VPD")
+
+
 # add other subdivisions
 # You can repeat the plot for precipitations
 ```
@@ -352,7 +362,9 @@ corr.diff.13C.vpd [1,2:13]
 Alternatively, you can explore the linear relationship with the months /seasons identified in the step above
 ```{r}
 # here is an example with MAY VPD 
-linear.diff.13C.vpd <- lm(diff.13C~ RCP.vpd[,"May"])
+linear.diff.13C.vpd <- lm(diff.13C~ window( RCP.vpd[,"May"],  1930, 2013))
+summary(linear.diff.13C.vpd)
+
 ```
 
 Question 12: is there a statistically significant relationship between the EW-LW difference and climate?
