@@ -229,13 +229,19 @@ LW.18O <- ts(RCP_iso[,4], start=1930, frequency=1)
 
 PLot the time series of EW and LW isotopes
 ```{r}
-par(mar=c(4,4.5,2,0.2))
-layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(1.7,1.7),respect = TRUE)
-ts.plot(EW.13C,ylab="d13C (permill.VPDB)",xlab="Years", col="#9C964A",main="13C")
+par(mar=c(4,4,1,0.2))
+layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(2,2),respect = TRUE)
+plot(EW.13C,ylab="d13C (permill.VPDB)",xlab="Years", col="#9C964A",main="13C")
 lines(LW.13C,col="#9C964A", lty=6)
 legend("topright", c("EW","LW"), lty=c(1,6), col=c("#9C964A","#9C964A"), text.col =c("#9C964A","#9C964A"), bty = "n")
-ts.plot(EW.18O,ylab="d18O (permill.VSMOW)",xlab="Years", col="purple3",main="18O")
+
+par(mar=c(4,0.2,1,4))
+plot(EW.18O,ylab="",xlab="Years", col="purple3",main="18O", axes=F)
 lines(LW.18O,col="purple3", lty=6)
+axis(1)
+axis(4)
+box()
+mtext("d18O (permill.VSMOW)", side = 4, line = 2.5)
 legend("bottomright", c("EW","LW"), lty=c(1,6), col=c("purple3","purple3"), text.col =c("purple3","purple3"), bty = "n")
 ```
 Question 7: Describe the temporal variations (interannual) of each isotope and for each tree ring subdivision (EW & LW)
