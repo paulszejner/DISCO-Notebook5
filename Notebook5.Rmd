@@ -7,7 +7,7 @@ output: html_notebook
 #####  COURSE: DISC, LTRR, UNIVERSITY OF ARIZONA. INSTRUCTORS: S. BELMECHERI & P. SZEJNER
 
 
-Instructions:
+### Instructions:
 
 The following code and comments should further your experience of the use and interpretation of tree ring Carbon and Oxygen isotope measurements in cellulose at high temporal resolution. 
 
@@ -159,36 +159,37 @@ Plot VPD with tree ring d18O at various temporal resolution
 #read VPD data for this site
 VPD_HEL <- read.csv("Data_Notebook5_part1/VPD_1998_1999_HEL.csv" )[,c(2,3,4)]
 # Note that the VPD values are reported for Day of the year
-par(mar=c(4,4,2,0),lwd=0.5)
-layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(10,10),heights = c(10,10),respect = TRUE)
+par(mar=c(4,4,0.5,0.2),lwd=0.5)
+layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(2),respect = TRUE)
+
 #VPD_1998
-par(mar=c(4,4,2,1),lwd=0.5)
 plot(x = c(1:10),y=c(1:10),xlim = c(135,304), ylim = c(0,40) , type = "n", axes = F, xlab = "DOY", ylab = "VPD")
 polygon(x = c(VPD_HEL[,1], rev(VPD_HEL[,1])), y = c(VPD_HEL[,2], rev(VPD_HEL[,3])), border = F, col = rgb(0.2,0.3,0.4,0.6))
 axis(1, at = seq(135,304,15),lwd=0.5,las=2)
 axis(2,at = seq(0,40, 10), las=2,lwd=0.5)
 grid(lwd=1)
 box()
+
 # Note that the d18O values are plotted vs  Day of the year
-par(mar=c(4,4,2,0),lwd=0.5)
-plot(HEL_98[,1], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(135,304), axes=F, xlab = "DOY", ylab = "d18O (permill.VSMOW)");box()
-axis(1, at = seq(135,304,15),lwd=0.5,las=2)
-axis(2,lwd=0.5,las=2)
-grid(lwd=1)
+par(mar=c(4,0.2,0.5,4),lwd=0.5)
+plot(HEL_98[,1], HEL_98[,2], type="n", ylim=c(26,34), xlim=c(135,304), axes=F, xlab = "DOY", ylab = "");box()
+  axis(1, at = seq(135,304,15),lwd=0.5,las=2)
+  axis(4,lwd=0.5,las=2)
+  grid(lwd=1)
 lines( HEL_98[,1],HEL_98[,2], type="o",col=colb1[2],lwd=0.5, pch=1)
-legend(x = 210, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
+  legend(x = 200, y = 34, legend = "Thin sections", col=colb1[3] , bty = "n",lwd=1)
 # add the values of the quarters (equally distanced thin sections)
 lines( HEL_98[,1],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
-legend(x = 210, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
+  legend(x = 200, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
 # Add the values EW and LW 
 lines(HEL_98[,1][1:11], rep(EW_1998, 11),type="s",col="darkblue",lwd=3  )#EW
-legend(x = 210, y = 32.5, legend = "Earlywood", col="darkblue" , bty = "n",lwd=3)
+  legend(x = 200, y = 32.5, legend = "Earlywood", col="darkblue" , bty = "n",lwd=3)
 lines(HEL_98[,1][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
-legend(x = 210, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
+  legend(x = 200, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
 # add the annual 18O value
 abline(h = HEL_98_complete,col=colb1[1],lwd=3,lty=2)
-legend(x = 210, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
-
+  legend(x = 200, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
+mtext("d18O (permill.VSMOW)",side = 4, line = 2.5)
 ```
 
 Question 3: Based on seasonal variations of VPD and d18O. Describe how tree physiology responded to VPD variability throughout the season.
