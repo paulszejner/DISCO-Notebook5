@@ -323,7 +323,11 @@ Plot the correlations between monthly climate data and the C & O isotopes for ea
 # you will need to add the plots for other variables. 
 layout(matrix(1:4,nrow = 2, ncol = 2,byrow = F), widths = c(4,4,4,4),heights = c(3,3,3,3),respect = TRUE)
 barplot(correl.EW.13C.vpd[1,2:13],las=3,col=c("turquoise3"),ylab="Correlation", main="EW 13C VPD")
+barplot(correl.EW.13C.vpd[1,2:13],las=3,col=c("turquoise3"),ylab="Correlation", main="EW 13C VPD")
 
+barplot(correl.EW.13C.vpd[1,2:13],las=3,col=c("turquoise3"),ylab="Correlation", main="EW 13C VPD")
+
+barplot(correl.EW.13C.vpd[1,2:13],las=3,col=c("turquoise3"),ylab="Correlation", main="EW 13C VPD")
 
 # add other subdivisions
 # You can repeat the plot for precipitations
