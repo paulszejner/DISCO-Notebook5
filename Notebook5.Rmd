@@ -3,7 +3,6 @@ title: "High temporal resolution Isotope measurements in Tree rings"
 output: html_notebook
 ---
 #####  Isotope Dendrochronology
-#####  High temporal resolution Isotope measurements in Tree rings.
 #####  COURSE: DISC, LTRR, UNIVERSITY OF ARIZONA. INSTRUCTORS: S. BELMECHERI & P. SZEJNER
 
 
@@ -15,17 +14,19 @@ The first part of this exercise relies upon high temporal-intra annual resolutio
 
 The Second part of this exercise relies upon seasonal resolution (earlywood and latewood) measurements of 13C and 18O for the 1930-2012 period from multiple trees (n=5) located in US SW (RCP Site). In this part, you will explore seasonal differences in C and O absolute values, their correlations to seasonal climate and their interpretation in terms of seasonal ecophysiological responses.
 
+There are a few questions throughout to catalyze understanding and critical thinking. The analysis is broken into two main parts (including 13 questions). At the end, you should gain insights into the relevance and advantages of high seasonal resolution isotope measurements.
+
 You will need to download the R project from https://github.com/paulszejner/DISCO-Notebook5.git and to set your own working directory. Once you open the Notebook 5.Rproj in R studio  you can open the Notebook 5.Rmd file to proceed with the activity.
 
 
 
-## PART 1: Sampling resolution: Annual to intra-seasonal
+## PART 1: Sampling resolution [Annual to intra-seasonal]
 
 Increasing the number of samples per tree-ring may provide additional data. But to be useful in any given research effort, the increase in the sampling resolution must provide additional information that is pertinent to answering the research question. We will explore this by investigating d18O at various temporal resolutions: from low (annual) to high (100 μm) within one year (one tree ring). The Whole ring of the year 1998 was sampled at 100 microns (using a microtome) for a total of 16 thin sections and 18O measurements.
 
 In this next steps, we will explore the seasonal variations of 18O recorded throughout the 1998 growing season and what d18O signal is recovered depending on the sampling resolution.
 
-1.1. 100 μm thin sections:
+### 1.1. 100 μm thin sections:
 
 ```{r}
 # Read the high resolution 18O data for 1998.
@@ -47,9 +48,9 @@ legend(x = 0.7, y = 34, legend = "Thin sections", col=colb1[2] , bty = "n",lwd=1
 ```
 
 
-1.2. Quartiles:
+### 1.2. Quartiles:
 
-Now, plot the d 18O assuming that you sub-sampled this ring in 4 sections.
+Now, plot the d18O assuming that you sub-sampled this ring in 4 sections.
 For this, you need to calculate the average d18O value of 4 consecutive thin sections per ring (16 thin sections/4= 4 ring sections or quartiles)
 
 ```{r}
@@ -79,7 +80,7 @@ lines( HEL_98[,3],HEL_98_quarter, type="S",col=colb1[3],lwd=3)
 legend(x = 0.7, y = 33.5, legend = "4 sections", col=colb1[3] , bty = "n",lwd=3)
 ```
 
-1.3. Earlywood/Latewood
+### 1.3. Earlywood/Latewood
 
 Now, plot the d18O assuming you sub-sampled the earlywood (EW) and latewood (LW) portions (or subdivisions) of the ring.
 We know from ring width measurements and sample preparation that the EW/LW boundary is at 110 microns (1.1 mm).
@@ -108,7 +109,7 @@ lines(HEL_98[,3][12:16], rep(LW_1998, 5),type="s",col="darkred",lwd=3  )#LW
 legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
 ```
 
-1.4. Whole-ring:
+### 1.4. Whole-ring:
 
 Now, plot the d18O assuming you sampled the whole ring.
 For this, calculate the average value using all the thin sections
@@ -139,21 +140,22 @@ legend(x = 0.7, y = 32, legend = "Latewood", col="darkred" , bty = "n",lwd=3)
 abline(h = HEL_98_complete,col=colb1[1],lwd=3,lty=2)
 legend(x = 0.7, y = 33, legend = "annual mean", col=colb1[1] , bty = "n",lwd=3,lty=2)
 ```
-In these steps, you can see that the various temporal resolutions yield different values of d18O. This result from variability of environmental conditions throughout (whole growing season) or within (window)  the growing season  captured in d18O measurements of annual, EW-LW and subseasonal resolution/tree-ring sections.
+In these steps, you can see that the various temporal resolutions yield different values of d18O. This result from the variability of environmental conditions throughout the whole growing season or within the growing season (window)  captured in d18O measurements of annual, EW-LW and subseasonal resolution/tree-ring sections.
 
 Question 1: Describe the differences of d18O values based on the chosen 4 temporal resolutions.
 
 Question 2: Discuss how ecophysiological interpretations of d18O signal recorded in tree rings differ between:
 
-a) whole ring d18O vs thin sections
-b) whole ring d18O vs EW and LW
-c) whole ring d18O vs quartiles
+a) whole ring d18O vs. thin sections
+b) whole ring d18O vs. EW and LW
+c) whole ring d18O vs. quartiles
 
+### 1.5. Climate drivers:
 
 Now, we will look into the climate drivers of d18O seasonality. Based on previous studies at this site, vapor pressure deficit (VPD)
 has been shown to drive variations in tree ring d18O. This is mainly through its effect on leaf water enrichment.
 
-Plot VPD with tree ring d18O at various temporal resolution
+Plot VPD with tree ring d18O at various temporal resolution:
 
 ```{r}
 #read VPD data for this site
@@ -200,7 +202,7 @@ Question 5: What temporal resolution would you choose if you have to investigate
 
 a) What environmental factors drive productivity in US SW trees? 
 b) How climate drives productivity and tree physiology
-c) climate variations at centennial time scale and their link to atmospheric circulation patterns.
+c) Climate variations at centennial time scale and their link to atmospheric circulation patterns.
 
 Question 6: Monsoonal and Mediterranean climates are good examples of climate regimes with consistent inter-annual and intra-annual climate changes. 
 Such distinct climate variations can result in seasonal and subseasonal changes in the stable isotope ratios fixed in the tree-ring cellulose.
@@ -218,7 +220,7 @@ In this part, we will explore temporal variations at decadal scale of tree ring 
 
 We will also investigate how climate influence both isotope's seasonal variations and what this reveals about tree physiology.
 
-First read the seasonal C and O data
+First import the seasonal C and O data:
 ```{r}
 RCP_iso <- read.csv("Data_Notebook5_part2/RCP_Isotope_data_EW_LW.csv")[,c(2:5)]
 EW.13C <- ts(RCP_iso[,1], start=1930, frequency=1)
@@ -227,7 +229,7 @@ EW.18O <- ts(RCP_iso[,3], start=1930, frequency=1)
 LW.18O <- ts(RCP_iso[,4], start=1930, frequency=1)
 ```
 
-PLot the time series of EW and LW isotopes
+Plot the time series of EW and LW isotopes:
 ```{r}
 par(mar=c(4,4,1,0.2))
 layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(2,2),respect = TRUE)
@@ -246,17 +248,16 @@ legend("bottomright", c("EW","LW"), lty=c(1,6), col=c("purple3","purple3"), text
 ```
 Question 7: Describe the temporal variations (interannual) of each isotope and for each tree ring subdivision (EW & LW)
 
-Question 8: Describe the temporal trends of each isotope and for each tree ring subdivision (EW & LW)
+Question 8: Describe the temporal trends of each isotope and for each tree ring subdivision (EW & LW). You can use linera regreassions and correspondinf statistics.
 
-Nest, we will explore the differences between EW and LW for each isotope
-
+Next, we will explore the differences between EW and LW for each isotope:
 ```{r}
 # First  calculate the difference between EW and LW for each isotope
 diff.13C <- abs(LW.13C-EW.13C)
 diff.18O <- abs(LW.18O-EW.18O)
 ```
 
-PLot the EW-LW difference for each isotope
+Plot the EW-LW difference for each isotope:
 ```{r}
 par(mar=c(4,4,1,0.2))
 layout(matrix(1:2,nrow = 1, ncol = 2,byrow = T), widths = c(2,2),heights = c(2),respect = TRUE)
@@ -268,8 +269,8 @@ axis(1)
 axis(4)
 box()
 mtext("Diff EW-LW", side = 4, line = 2.5)
-
 ```
+
 Question 9: Describe the EW-LW differences for each isotope:
 
 a) do they differ between O and C?
@@ -277,7 +278,7 @@ b) do they exhibit a temporal trend?
 c) do they exhibit a change in the variance?
           
 
-Explore the climate drivers of EW and LW for each isotope
+Explore the climate drivers of EW and LW for each isotope:
 ```{r}
 # Read climate variables: VPD and precipitation. These data are from PRISM and cover the period from 1895-2015
 RCP.vpd <- ts((read.csv("Data_Notebook5_part2/RCP_VPD_prism(monthly_1895_2015).csv")[,c(2:13)]), start=1895, frequency=1)
@@ -285,15 +286,15 @@ RCP.pcp <- ts((read.csv("Data_Notebook5_part2/RCP_precipitation_(mm)_1901-2012.c
 # Note that you need to subset the climate data for the period of the tree ring record (1930-2012)
 ```
 
-Explore the climatology of the RCP site. This will facilitate the interpretation of seasonal variability of isotopes recorded in tree rings.
+Explore the climatology of the RCP site. This will facilitate the interpretation of seasonal variability of isotopes recorded in tree rings:
 ```{r}
 # you can use monthly averages to look at seasonal patterns of VPD and PCP (barplot)
 ```
 
 
-Correlate EW and LW isotopes with monthly VPD and PCP
+Correlate EW and LW isotopes with monthly VPD and PCP.
 
-First, Combine isotope and climate matrices
+First, Combine isotope and climate matrices:
 ```{r}
 # For VPD
 EW.13C.vpd <- ts.union(EW.13C,RCP.vpd)
@@ -309,33 +310,33 @@ EW.18O.pcp <- ts.union(EW.18O,RCP.pcp)
 
 ```
 
-Then run the correlations
+Then run the correlations:
 ```{r}
 # here is an example for EW13C and VPD including renaming the columns for better plots
 correl.EW.13C.vpd <- cor(EW.13C.vpd,use="p"); colnames(correl.EW.13C.vpd) <- c("EW.13C", colnames(RCP.vpd))
 
-# repeat these steps for the other tree ring subdivisions and climate variables
+# repeat these steps for the other tree ring subdivisions and climate variables.
 ```
 
-Plot the correlations between monthly climate data and the C & O isotopes for each ring subdivision
+Plot the correlations between monthly climate data and the C & O isotopes for each ring subdivision:
 ```{r}
 # here is a skeleton for a plot that includes only EW13C and VPD
 # you will need to add the plots for other variables. 
 layout(matrix(1:4,nrow = 2, ncol = 2,byrow = F), widths = c(4,4,4,4),heights = c(3,3,3,3),respect = TRUE)
 barplot(correl.EW.13C.vpd[1,2:13],las=3,col=c("turquoise3"),ylab="Correlation", main="EW 13C VPD")
 
-# add other subdivisions
-# You can repeat the plot for precipitations
+# add other subdivisions.
+# You can repeat the plot for precipitation.
 ```
 Question 10: Describe the correlations for each tree ring subdivision and identify which months/seasons exhibit the highest correlations.
 
 Question 11: What are the differences in the seasonality of the correlations:
 
 a) among tree-ring subdivisions (EW vs LW) for the same isotope.
-b) among isotopes ( O and C) for different climate variables (VPD and PCP).
+b) among isotopes (O and C) for different climate variables (VPD and PCP).
 
 
-Correlate and plot the EW-LW differences with VPD and PCP
+Correlate and plot the EW-LW differences with VPD and PCP:
 ```{r}
 # Combine matrices
 diff.13C.vpd <- ts.union(diff.13C, RCP.vpd)
@@ -352,26 +353,25 @@ corr.diff.13C.pcp <- cor(diff.13C.pcp,use="p"); colnames(corr.diff.13C.pcp) <- c
 corr.diff.18O.pcp <- cor(diff.18O.pcp,use="p"); colnames(corr.diff.18O.pcp) <- c("diff.18O", colnames(RCP.vpd))
 ```
 
-Look at the correlation matrices and identify the months or seasons with the highest correlations
+Look at the correlation matrices and identify the months or seasons with the highest correlations:
 ```{r}
 # here is one example
 corr.diff.13C.vpd [1,2:13]
 ```
 
-Alternatively, you can explore the linear relationship with the months /seasons identified in the step above
+Alternatively, you can explore the linear relationship with the months /seasons identified in the step above:
 ```{r}
 # here is an example with MAY VPD 
 linear.diff.13C.vpd <- lm(diff.13C~ window( RCP.vpd[,"May"],  1930, 2013))
 summary(linear.diff.13C.vpd)
-
 ```
 
-Question 12: is there a statistically significant relationship between the EW-LW difference and climate?
+Question 12: Is there a statistically significant relationship between the EW-LW difference and climate?
 
-Question 13: based on the seasonality of climate correlations for each tree ring subdivision, discuss:
+Question 13: Based on the seasonality of climate correlations for each tree ring subdivision, discuss:
 
-a) how tree physiology varies seasonally in response to VPD and PCP.
-b) how are VPD and PCP affecting leaf water enrichment and stomatal conductance.
-c) how these effects translate into the recorded C and O values.
+a) How tree physiology varies seasonally in response to VPD and PCP.
+b) How are VPD and PCP affecting leaf water enrichment and stomatal conductance.
+c) How these effects translate into the recorded C and O values.
 
 
